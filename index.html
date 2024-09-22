@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="x-icon" href="img/favicon-32x32.png">
+    <link rel="stylesheet" href="Style.css">
+    <title>Sing in Frontend mentor</title>
+</head>
+<body>
+    <main>
+        <div class="learn">
+          <h1>Learn to code by watching others</h1>
+          <p>See how experienced developers solve problems in real-time. Watching scripted tutorials is great, 
+      but understanding how developers think is invaluable.</p>
+        </div>
+        <section>
+            <div class="head">
+                <p><strong>Try it free 7 days</strong> then $20/mo. thereafter</p>
+            </div>
+             
+          <form action="#"  id="form">
+            
+            <input type="text" name="first-name" id="first-name" aria-label="First Name" placeholder="First Name" required>
+            <input type="text" name="last-name" id="last-name" aria-label="Last Name" placeholder="Last Name" required>
+            <input type="email" name="email" id="email" aria-label="Email Address" placeholder="Email Address" required>
+            <input type="password" name="password" id="password" aria-label="Password" placeholder="Password" required>
+            <input type="submit" value="Claim your free trial" aria-label="Submit">
+            <span class="terms-notice">By clicking the button, you are agreeing to our <span>Terms and Services</span></span>
+    
+          </form>
+        </section>
+
+
+        <script>
+ const inputs = document.querySelectorAll("input:not([type='submit'])");
+
+inputs.forEach(input => {
+    // Add event listener for invalid inputs
+    input.addEventListener('invalid', addErrorMessage);
+
+    // Check validity on every blur
+    input.addEventListener('blur', () => {
+        input.checkValidity();
+    });
+
+    // Remove existing error messages on focus
+    input.addEventListener('focus', removeErrorMessage);
+});
+
+function addErrorMessage(e) {
+    const inputType = e.target.getAttribute("type");
+    const placeholder = e.target.getAttribute("placeholder");
+
+    // Create error icon element
+    const errorIcon = document.createElement('span');
+    errorIcon.setAttribute("data-id", e.target.name);
+    errorIcon.classList.add('error-icon');
+    errorIcon.innerHTML = "<img src='images/icon-error.svg' alt='Error Icon'>";
+
+    // Create error message element
+    const errorMessage = document.createElement('span');
+    errorMessage.setAttribute("data-id", e.target.name);
+    errorMessage.classList.add('error-message');
+
+    if (e.target.value === "") {
+        errorMessage.innerHTML = `${placeholder} cannot be empty.`;
+    } else if (inputType === "email" && !validateEmail(e.target.value)) {
+        errorMessage.innerHTML = "Looks like this is not a valid email.";
+    } else {
+        errorMessage.innerHTML = `Looks like this is not a valid ${placeholder}.`;
+    }
+
+    // Append error icon and message after input element
+    e.target.after(errorMessage);
+    e.target.after(errorIcon);
+
+    // Add error class to input to change border color
+    e.target.classList.add('error');
+}
+
+function removeErrorMessage(e) {
+    const elements = document.querySelectorAll(`[data-id='${e.target.name}']`);
+
+    elements.forEach(element => {
+        element.remove();
+    });
+
+    // Remove error class from input
+    e.target.classList.remove('error');
+}
+
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+}
+
+        </script>
+        
+            
+</body>
+</html>
